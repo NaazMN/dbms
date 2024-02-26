@@ -1,0 +1,315 @@
+SQL*Plus: Release 10.2.0.1.0 - Production on Wed Feb 14 10:07:13 2024
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+SQL> connect system
+Enter password:
+Connected.
+SQL> create table department(deptid int,primary key,deptname varchar(20),city varchar(20));
+create table department(deptid int,primary key,deptname varchar(20),city varchar(20))
+                                              *
+ERROR at line 1:
+ORA-00906: missing left parenthesis
+
+
+SQL>  create table department(deptid int primary key,deptname varchar(20),city varchar(20));
+
+Table created.
+
+SQL> create table emp(empid int primary key,empname varchar(20),foreign key(deptid)references department(deptid),salary int);
+create table emp(empid int primary key,empname varchar(20),foreign key(deptid)references department(deptid),salary int)
+                                                                       *
+ERROR at line 1:
+ORA-00904: "DEPTID": invalid identifier
+
+
+SQL> create table emp(empid int primary key,empname varchar(20),deptid int,foreign key(deptid) references dept(deptid),salary int);
+create table emp(empid int primary key,empname varchar(20),deptid int,foreign key(deptid) references dept(deptid),salary int)
+                                                                                                     *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> create table emp(empid int primary key,empname varchar(20),deptid int,foreign key(deptid) references dept(deptid),salary int);
+create table emp(empid int primary key,empname varchar(20),deptid int,foreign key(deptid) references dept(deptid),salary int)
+                                                                                                     *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> create table emp(empid int primary key,empname varchar(20),deptid int,foreign key(deptid) references department(deptid),salary int);
+
+Table created.
+
+SQL> insert into department values(&deptid,'&deptname','&city');
+Enter value for deptid: 1
+Enter value for deptname: bca
+Enter value for city: cherannalloor
+old   1: insert into department values(&deptid,'&deptname','&city')
+new   1: insert into department values(1,'bca','cherannalloor')
+
+1 row created.
+
+SQL> /
+Enter value for deptid: 2
+Enter value for deptname: mca
+Enter value for city: kodhamangalam
+old   1: insert into department values(&deptid,'&deptname','&city')
+new   1: insert into department values(2,'mca','kodhamangalam')
+
+1 row created.
+
+SQL> /
+Enter value for deptid: 3
+Enter value for deptname: mcom
+Enter value for city: kochi
+old   1: insert into department values(&deptid,'&deptname','&city')
+new   1: insert into department values(3,'mcom','kochi')
+
+1 row created.
+
+SQL> 4
+SP2-0226: Invalid line number
+SQL> /
+Enter value for deptid: 4
+Enter value for deptname: bcom
+Enter value for city: aroor
+old   1: insert into department values(&deptid,'&deptname','&city')
+new   1: insert into department values(4,'bcom','aroor')
+
+1 row created.
+
+SQL> /
+Enter value for deptid: 5
+Enter value for deptname: bsc
+Enter value for city: chittoor
+old   1: insert into department values(&deptid,'&deptname','&city')
+new   1: insert into department values(5,'bsc','chittoor')
+
+1 row created.
+
+SQL> insert into emp values(&empid,'&empname','&deptid','&salary');
+Enter value for empid: 1
+Enter value for empname: Naaz
+Enter value for deptid: 1
+Enter value for salary: 30000
+old   1: insert into emp values(&empid,'&empname','&deptid','&salary')
+new   1: insert into emp values(1,'Naaz','1','30000')
+
+1 row created.
+
+SQL> /
+Enter value for empid: 2
+Enter value for empname: livya
+Enter value for deptid: 2
+Enter value for salary: 3500
+old   1: insert into emp values(&empid,'&empname','&deptid','&salary')
+new   1: insert into emp values(2,'livya','2','3500')
+
+1 row created.
+
+SQL> /
+Enter value for empid: 3
+Enter value for empname: keerthi
+Enter value for deptid: 3
+Enter value for salary: 1500
+old   1: insert into emp values(&empid,'&empname','&deptid','&salary')
+new   1: insert into emp values(3,'keerthi','3','1500')
+
+1 row created.
+
+SQL> /
+Enter value for empid: 4
+Enter value for empname: reetha
+Enter value for deptid: 4
+Enter value for salary: 2800
+old   1: insert into emp values(&empid,'&empname','&deptid','&salary')
+new   1: insert into emp values(4,'reetha','4','2800')
+
+1 row created.
+
+SQL> /
+Enter value for empid: 5
+Enter value for empname: jeena
+Enter value for deptid: 5
+Enter value for salary: 32000
+old   1: insert into emp values(&empid,'&empname','&deptid','&salary')
+new   1: insert into emp values(5,'jeena','5','32000')
+
+1 row created.
+
+SQL> select * from department;
+
+    DEPTID DEPTNAME             CITY
+---------- -------------------- --------------------
+         1 bca                  cherannalloor
+         2 mca                  kodhamangalam
+         3 mcom                 kochi
+         4 bcom                 aroor
+         5 bsc                  chittoor
+
+SQL> select * from emp;
+
+     EMPID EMPNAME                  DEPTID     SALARY
+---------- -------------------- ---------- ----------
+         1 Naaz                          1      30000
+         2 livya                         2       3500
+         3 keerthi                       3       1500
+         4 reetha                        4       2800
+         5 jeena                         5      32000
+
+SQL> update emp set empname='Ammu' where empid=4;
+
+1 row updated.
+
+SQL> select * from emp;
+
+     EMPID EMPNAME                  DEPTID     SALARY
+---------- -------------------- ---------- ----------
+         1 Naaz                          1      30000
+         2 livya                         2       3500
+         3 keerthi                       3       1500
+         4 Ammu                          4       2800
+         5 jeena                         5      32000
+
+SQL> update emp set salary=salary+500 where deptid=2;
+
+1 row updated.
+
+SQL> select * from emp;
+
+     EMPID EMPNAME                  DEPTID     SALARY
+---------- -------------------- ---------- ----------
+         1 Naaz                          1      30000
+         2 livya                         2       4000
+         3 keerthi                       3       1500
+         4 Ammu                          4       2800
+         5 jeena                         5      32000
+
+SQL> delete from emp where empid=4;
+
+1 row deleted.
+
+SQL> select * from emp;
+
+     EMPID EMPNAME                  DEPTID     SALARY
+---------- -------------------- ---------- ----------
+         1 Naaz                          1      30000
+         2 livya                         2       4000
+         3 keerthi                       3       1500
+         5 jeena                         5      32000
+
+SQL> select empname,deptname from emp,department where emp.deptid=department.deptid;
+
+EMPNAME              DEPTNAME
+-------------------- --------------------
+Naaz                 bca
+livya                mca
+keerthi              mcom
+jeena                bsc
+
+SQL> select name from emp,department where city='kochi' and emp.deptid=department.deptid;
+select name from emp,department where city='kochi' and emp.deptid=department.deptid
+       *
+ERROR at line 1:
+ORA-00904: "NAME": invalid identifier
+
+
+SQL> select empname,deptname from emp,department where city='aroor' and emp.deptid=department.deptid;
+
+no rows selected
+
+SQL> select empname,deptname from emp,department where city='kochi' and emp.deptid=department.deptid;
+
+EMPNAME              DEPTNAME
+-------------------- --------------------
+keerthi              mcom
+
+SQL> delete from emp where name='livya';
+delete from emp where name='livya'
+                      *
+ERROR at line 1:
+ORA-00904: "NAME": invalid identifier
+
+
+SQL> delete from emp where empname='livya';
+
+1 row deleted.
+
+SQL> select * from emp;
+
+     EMPID EMPNAME                  DEPTID     SALARY
+---------- -------------------- ---------- ----------
+         1 Naaz                          1      30000
+         3 keerthi                       3       1500
+         5 jeena                         5      32000
+
+SQL> update emp set salary=salary +500 where deptid=1;
+
+1 row updated.
+
+SQL> select * from emp;
+
+     EMPID EMPNAME                  DEPTID     SALARY
+---------- -------------------- ---------- ----------
+         1 Naaz                          1      30500
+         3 keerthi                       3       1500
+         5 jeena                         5      32000
+
+SQL> select empname,deptname from emp.department where salary>2000 and emp.deptid=dept.deptid;
+select empname,deptname from emp.department where salary>2000 and emp.deptid=dept.deptid
+                                 *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select empname,deptname from emp,department where salary>2000 and emp.deptid=dept.deptid;
+select empname,deptname from emp,department where salary>2000 and emp.deptid=dept.deptid
+                                                                             *
+ERROR at line 1:
+ORA-00904: "DEPT"."DEPTID": invalid identifier
+
+
+SQL> select empname,deptname from emp,department where salary>2000 and emp.deptid=department.deptid;
+
+EMPNAME              DEPTNAME
+-------------------- --------------------
+Naaz                 bca
+jeena                bsc
+
+SQL>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
